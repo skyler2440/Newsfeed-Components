@@ -173,3 +173,82 @@ function crtNFComp(title, date, fP, sP, tP) {
   })
     return article
 }
+
+// const form = document.querySelector('.form');
+// const formData = getFormDataAsJson(form);
+// const formToJSON = elements => [].reduce.call(elements, (dataFromForm, element) => {
+
+//   dataFromForm[element.name] = element.value;
+//   return dataFromForm;
+
+// }, {});
+// const reducerFunction = (dataFromForm, element) => {
+//   dataFromForm[element.name] = element.value;
+//   console.log(JSON.stringify(dataFromForm));
+//   return dataFromForm;
+// }
+
+// const handleFormSubmit = event => {
+//   event.preventDefault();
+//   const dataFromForm = reducerFunction();
+//   console.log(dataFromForm);
+// };
+
+// const form = document.querySelector('.form');
+// form.addEventListener('submit', handleFormSubmit);
+
+// element => element.type === 'checkbox';
+
+
+
+const formToJSON_deconstructed = elements => {
+
+  // This is the function that is called on each element of the array.
+  const reducerFunction = (data, element) => {
+
+    // Add the current field to the object.
+    data[element.name] = element.value;
+
+    // For the demo only: show each step in the reducer’s progress.
+    console.log(JSON.stringify(data));
+
+    return data;
+  };
+
+  // This is used as the initial value of `data` in `reducerFunction()`.
+  const reducerInitialValue = {};
+
+  // To help visualize what happens, log the inital value, which we know is `{}`.
+  console.log('Initial `data` value:', JSON.stringify(reducerInitialValue));
+
+  // Now we reduce by `call`-ing `Array.prototype.reduce()` on `elements`.
+  const formData = [].reduce.call(elements, reducerFunction, reducerInitialValue);
+
+  // The result is then returned for use elsewhere.
+  console.log(formData)
+  return formData;
+};
+
+const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+      data[element.name] = element.value;
+      console.log(data);
+      return data;
+  
+});
+
+const handleFormSubmit = event => {
+
+  // Stop the form from submitting since we’re handling that with AJAX.
+  // event.preventDefault();
+
+  // Call our function to get the form data.
+  const data = formToJSON(form.elements);
+};
+
+/*
+       * This is where things actually get started. We find the form element using
+       * its class name, then attach the `handleFormSubmit()` function to the 
+       * `submit` event.
+       */
+const form = document.querySelector('.contact-form');
+form.addEventListener('submit', handleFormSubmit);
